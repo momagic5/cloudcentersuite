@@ -1,0 +1,170 @@
+{
+   "displayName":"Tensorflow",
+   "name":"tensorflow",
+   "description":"TensorFlow is an end-to-end platform that makes it easy for you to build and deploy Machine Leaning(ML) models.",
+   "parentServiceId":"48",
+   "costPerHour":"0.00",
+   "bundleLocation":"services/tensorflow.zip",
+   "systemService":false,
+   "serviceType":"VM_AGENT",
+   "logoPath":"logo.png",
+   "serviceActions":[
+      {
+         "actionName":"DEPLOY",
+         "actionType":"SCRIPT",
+         "actionValue":"service install",
+         "value":"service install",
+         "key":"DEPLOY"
+      },
+      {
+         "actionName":"STOP",
+         "actionType":"SCRIPT",
+         "actionValue":"service stop",
+         "value":"service stop",
+         "key":"STOP"
+      }
+   ],
+   "externalBundleLocation":"",
+   "externalActions":[
+
+   ],
+   "actions":[
+
+   ],
+   "serviceParamSpecs":[
+      {
+         "paramName":"PythonPackage",
+         "displayName":"PythonPackage ",
+         "helpText":"Package of the tensorflow application with the initialisation file.",
+         "type":"path",
+         "valueConstraint":{
+            "maxLength":255,
+            "allowSpaces":true,
+            "remainingChars":255
+         },
+         "valueList":null,
+         "collectionList":null,
+         "defaultValue":"http://13.127.185.13/apps/objectdetection.zip",
+         "secret":null,
+         "confirmValue":null,
+         "pathSuffixValue":"http://13.127.185.13/apps/objectdetection.zip",
+         "userVisible":true,
+         "userEditable":true,
+         "optional":false,
+         "multiselectSupported":false,
+         "webserviceListParams":null,
+         "systemParam":false,
+         "deploymentParam":true
+      },
+      {
+         "paramName":"InitFile",
+         "displayName":"InitFile",
+         "helpText":"Python Application initialization (.py)File ",
+         "type":"string",
+         "valueConstraint":{
+            "maxLength":255,
+            "allowSpaces":true,
+            "remainingChars":255
+         },
+         "valueList":null,
+         "collectionList":null,
+         "defaultValue":"/object_detection_app/app.py",
+         "secret":null,
+         "confirmValue":null,
+         "pathSuffixValue":null,
+         "userVisible":true,
+         "userEditable":true,
+         "optional":false,
+         "multiselectSupported":false,
+         "webserviceListParams":null,
+         "systemParam":false,
+         "deploymentParam":true
+      },
+      {
+         "paramName":"TensorboardLogpath",
+         "displayName":"Tensorboard log directory path",
+         "helpText":"Path of the log files used in your application for tensorboard running",
+         "type":"string",
+         "valueConstraint":{
+            "maxLength":255,
+            "allowSpaces":true,
+            "remainingChars":255
+         },
+         "valueList":null,
+         "collectionList":null,
+         "defaultValue":"/opt/tensorboard",
+         "secret":null,
+         "confirmValue":null,
+         "pathSuffixValue":null,
+         "userVisible":true,
+         "userEditable":true,
+         "optional":false,
+         "multiselectSupported":false,
+         "webserviceListParams":null,
+         "systemParam":false,
+         "deploymentParam":true
+      },
+      {
+         "paramName":"DatasetsURL",
+         "displayName":"DatasetsURL",
+         "helpText":"Path of the Tensorflow Datasets",
+         "type":"path",
+         "valueConstraint":{
+            "maxLength":255,
+            "allowSpaces":true,
+            "remainingChars":255
+         },
+         "valueList":null,
+         "collectionList":null,
+         "defaultValue":"http://download.tensorflow.org/models/object_detection/faster_rcnn_resnet101_coco_11_06_2017.tar.gz",
+         "secret":null,
+         "confirmValue":null,
+         "pathSuffixValue":"http://download.tensorflow.org/models/object_detection/faster_rcnn_resnet101_coco_11_06_2017.tar.gz",
+         "userVisible":true,
+         "userEditable":true,
+         "optional":false,
+         "multiselectSupported":false,
+         "webserviceListParams":null,
+         "systemParam":false,
+         "deploymentParam":true
+      }
+   ],
+   "servicePorts":[
+      {
+         "fromPort":"8080",
+         "toPort":"8080",
+         "protocol":"TCP"
+      },
+      {
+         "fromPort":"6006",
+         "toPort":"6006",
+         "protocol":"TCP"
+      },
+      {
+         "fromPort":"80",
+         "toPort":"80",
+         "protocol":"TCP"
+      },
+      {
+         "fromPort":"22",
+         "toPort":"22",
+         "protocol":"TCP"
+      }
+   ],
+   "images":[
+      {
+         "id":"21"
+      },
+      {
+         "id":"26"
+      }
+   ],
+   "defaultImageId":"21",
+   "containerImages":[
+
+   ],
+   "repositories":[
+
+   ]
+
+}

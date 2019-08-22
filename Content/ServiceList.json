@@ -249,6 +249,7 @@
             "description":"Application Monitoring",
             "supportedVersion":"5.0.1",
             "serviceVersion":"1.0",
+			"isService":false,
             "urls":{  
                "serviceLibraryBundle":"Monitoring/Appdynamics/WorkloadManager/appdynamicsagent.zip",
                "dockerFile":"dockerimages/Dockerfile",
@@ -539,6 +540,26 @@
             "serviceVersion":"1.0",
             "urls":{  
                "serviceLibraryBundle":"Middleware/Oracle Weblogic/WorkloadManager/Weblogic.zip",
+               "dockerFile":"dockerimages/Dockerfile",
+               "serviceImport":"Scripts/serviceimport.zip"
+            },
+            "created":"",
+            "digest":""
+         }
+      }
+   ],
+   "MachineLearning":[  
+      {  
+         "Tensorflow":{  
+            "name":"Tensorflow",
+            "serviceID":"tensorflow",
+            "serviceCategory":"Machinelearning",
+            "description":"Tensorflow model deployment",
+            "supportedVersion":"5.0.1",
+            "serviceVersion":"1.0",
+            "urls":{  
+               "serviceLibraryBundle":"Machine Learning/Tensorflow/WorkloadManager/tensorflow.zip",
+              
                "dockerFile":"dockerimages/Dockerfile",
                "serviceImport":"Scripts/serviceimport.zip"
             },
