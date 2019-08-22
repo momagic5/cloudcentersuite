@@ -7,7 +7,7 @@
    "bundleLocation":"services/tensorflow.zip",
    "systemService":false,
    "serviceType":"VM_AGENT",
-   "logoPath":"custom/assets/img/serviceLogo/ea47c767-1e59-4e7b-92ac-ce3df78b74e1.png",
+   "logoPath":"logo.png",
    "serviceActions":[
       {
          "actionName":"DEPLOY",
@@ -133,26 +133,22 @@
       {
          "fromPort":"8080",
          "toPort":"8080",
-         "protocol":"TCP",
-         "id":"161"
+         "protocol":"TCP"
       },
       {
          "fromPort":"6006",
          "toPort":"6006",
-         "protocol":"TCP",
-         "id":"162"
+         "protocol":"TCP"
       },
       {
          "fromPort":"80",
          "toPort":"80",
-         "protocol":"TCP",
-         "id":"163"
+         "protocol":"TCP"
       },
       {
          "fromPort":"22",
          "toPort":"22",
-         "protocol":"TCP",
-         "id":"164"
+         "protocol":"TCP"
       }
    ],
    "images":[
@@ -167,13 +163,8 @@
    "containerImages":[
 
    ],
-   "containerPorts":[
-
-   ],
    "repositories":[
-      {
-        
-      }
+
    ]
-   
+
 }
