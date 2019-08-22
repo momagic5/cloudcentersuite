@@ -13,7 +13,7 @@
                   "supportedVersion":"5.0.1",
                   "serviceVersion":"1.0",
                   "urls":{  
-                     "serviceLibraryBundle":"Networking/Route53/WorkloadManager/Route53.zip",
+                     "serviceLibraryBundle":"Networking/DNS/AWS/Route53/WorkloadManager/Route53.zip",
                      "dockerFile":"dockerimages/Dockerfile",
                      "serviceImport":"Scripts/serviceimport.zip"
                   },
@@ -29,13 +29,29 @@
                   "supportedVersion":"5.0.1",
                   "serviceVersion":"1.0",
                   "urls":{  
-                     "serviceLibraryBundle":"Networking/DNS/Azure/WorkloadManager/AzureDnsZones.zip",
+                     "serviceLibraryBundle":"Networking/DNS/Azure/AzureDnsZones/WorkloadManager/AzureDnsZones.zip",
                      "dockerFile":"dockerimages/Dockerfile",
                      "serviceImport":"Scripts/serviceimport.zip"
                   },
                   "created":"",
                   "digest":""
-               }
+               },
+			   "Google":{  
+                  "name":"GoogleDNS",
+                  "serviceID":"googledns",
+                  "serviceCategory":"Networking",
+                  "serviceSubcategory":"DNS/Google/GoogleDNS",
+                  "description":"Google DNS",
+                  "supportedVersion":"5.0.1",
+                  "serviceVersion":"1.0",
+                  "urls":{  
+                     "serviceLibraryBundle":"Networking/DNS/Google/GoogleDNS/WorkloadManager/GoogleDNS.zip",
+                     "dockerFile":"dockerimages/Dockerfile",
+                     "serviceImport":"Scripts/serviceimport.zip"
+                  },
+                  "created":"",
+                  "digest":""
+               },
             }
          ],
          "LoadBalancer":[  
