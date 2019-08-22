@@ -493,6 +493,38 @@
             },
             "created":"",
             "digest":""
+         },
+         "Chef":{  
+            "name":"Chef",
+            "serviceID":"",
+            "serviceCategory":"Orchestration",
+            "description":"Configuration Management",
+            "supportedVersion":"5.0.1",
+            "serviceVersion":"1.0",
+            "isService":false,
+            "urls":{  
+               "serviceLibraryBundle":"Orchestration/Chef/WorkloadManager/ChefAgent.zip",
+               "dockerFile":"dockerimages/Dockerfile",
+               "serviceImport":"Scripts/serviceimport.zip"
+            },
+            "created":"",
+            "digest":""
+         },
+		 "Puppet":{  
+            "name":"Puppet",
+            "serviceID":"",
+            "serviceCategory":"Orchestration",
+            "description":"Configuration Management",
+            "supportedVersion":"5.0.1",
+            "serviceVersion":"1.0",
+            "isService":false,
+            "urls":{  
+               "serviceLibraryBundle":"Orchestration/Puppet/WorkloadManager/PuppetAgent.zip",
+               "dockerFile":"dockerimages/Dockerfile",
+               "serviceImport":"Scripts/serviceimport.zip"
+            },
+            "created":"",
+            "digest":""
          }
       }
    ],
