@@ -526,7 +526,7 @@
             "supportedVersion":"5.0.1",
             "serviceVersion":"1.0",
             "urls":{  
-               "serviceLibraryBundle":"Machine Learning\\Tensorflow\\WorkloadManager\\tensorflow.zip",
+               "serviceLibraryBundle":"Machine Learning/Tensorflow/WorkloadManager/tensorflow.zip",
               
                "dockerFile":"dockerimages/Dockerfile",
                "serviceImport":"Scripts/serviceimport.zip"
