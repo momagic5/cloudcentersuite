@@ -1,0 +1,110 @@
+#!/bin/bash
+
+# Input parameter
+cmd=$1
+
+# RUN EVERYTHING AS ROOT
+if [ "$(id -u)" != "0" ]; then
+    exec sudo "$0" "$@"
+fi
+
+
+# Log while running agent script
+source /usr/local/osmosix/etc/userenv
+exec > >(tee -a /usr/local/osmosix/logs/service.log) 2>&1
+
+ OSSVC_HOME=/usr/local/osmosix/service
+
+ . /usr/local/osmosix/etc/.osmosix.sh
+ . /usr/local/osmosix/etc/userenv
+ . $OSSVC_HOME/utils/cfgutil.sh
+ . $OSSVC_HOME/utils/install_util.sh
+ . $OSSVC_HOME/utils/os_info_util.sh
+
+cmd=$1
+
+installtensorflowcentos() {
+echo "Installing Tensorflow centos"
+yum -y install epel-release
+yum -y install gcc gcc-c++ python-pip python-devel atlas atlas-devel gcc-gfortran openssl-devel libffi-devel
+echo "1"
+yum install -y python-pip
+yum install -y https://centos7.iuscommunity.org/ius-release.rpm
+#yum update 
+yum install -y python36u python36u-libs python36u-devel python36u-pip
+yum -y install git 
+yum -y install unzip
+yum install -y  rh-python36
+pip install --upgrade pip
+pip install setuptools --upgrade
+pip install --upgrade tensorflow
+pip install requests
+echo 
+python tensorflowapppackage.py 
+echo "Script is completed"
+
+}
+
+installtensorflowubuntu() {
+apt-get update
+apt-get -y upgrade
+apt-get install -y yum
+apt-get install git
+sudo apt install -y python-pip
+python -m pip install --upgrade pip
+python -m pip install setuptools --upgrade
+python -m pip install --upgrade tensorflow
+python -m pip install requests
+
+
+python tensorflowapppackage.py 
+echo "Script complted"
+echo "Script execution completed."
+}
+start() {
+	echo "Executing Service.."
+	
+	if [ -f /etc/redhat-release ]; then
+        echo "Centos\n"
+		echo "Installing and configuring tensor model for Centos."
+		installtensorflowcentos
+		
+	elif [ -f /etc/lsb-release ]; then
+        echo "Ubuntu\n"
+		
+		installtensorflowubuntu
+		
+
+	fi
+
+}
+
+stop() {
+		echo "Stopping Service.."
+		return 0
+
+}
+case $cmd in
+        install)
+
+            start
+            ;;
+		stop)
+			stop
+			;;
+		*)
+		    exit 127
+			;;
+		   
+esac	
+
+
+
+
+
+
+
+
+
+
+
