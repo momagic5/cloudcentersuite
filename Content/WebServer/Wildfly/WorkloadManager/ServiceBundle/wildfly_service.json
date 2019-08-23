@@ -7,7 +7,7 @@
    "bundleLocation":"services/wildfly.zip",
    "systemService":false,
    "serviceType":"VM_AGENT",
-   "logoPath":"custom/assets/img/serviceLogo/fe0b9f37-6303-4e70-b914-5511fd1ef038.png",
+   "logoPath":"custom/assets/img/serviceLogo/ab1e2a28-05ee-43d8-9c66-9febbfeaebfc.png",
    "serviceActions":[
       {
          "actionName":"INSTALL",
@@ -19,8 +19,8 @@
       {
          "actionName":"DEPLOY",
          "actionType":"SCRIPT",
-         "actionValue":"service deploy",
-         "value":"service deploy",
+         "actionValue":"service  deploy",
+         "value":"service  deploy",
          "key":"DEPLOY"
       },
       {
@@ -152,7 +152,7 @@
       },
       {
          "paramName":"wlfyAdminUsername",
-         "displayName":"Admin Username",
+         "displayName":"Admin Username ",
          "helpText":"Admin Username",
          "type":"string",
          "valueConstraint":{
@@ -199,40 +199,37 @@
    ],
    "servicePorts":[
       {
+         "fromPort":"80",
+         "toPort":"80",
+         "protocol":"TCP",
+         "id":"88"
+      },
+      {
          "fromPort":"8080",
          "toPort":"8080",
          "protocol":"TCP",
-         "id":"190"
-      },
-      {
-         "fromPort":"8443",
-         "toPort":"8443",
-         "protocol":"TCP",
-         "id":"192"
+         "id":"89"
       },
       {
          "fromPort":"9990",
          "toPort":"9990",
          "protocol":"TCP",
-         "id":"193"
+         "id":"90"
+      },
+      {
+         "fromPort":"8443",
+         "toPort":"8443",
+         "protocol":"TCP",
+         "id":"91"
       },
       {
          "fromPort":"9993",
          "toPort":"9993",
          "protocol":"TCP",
-         "id":"194"
-      },
-      {
-         "fromPort":"80",
-         "toPort":"80",
-         "protocol":"TCP",
-         "id":"191"
+         "id":"92"
       }
    ],
    "images":[
-      {
-         "id":"4"
-      },
       {
          "id":"21"
       },
@@ -247,5 +244,7 @@
    "containerPorts":[
 
    ],
-   "repositories":[] 
+   "repositories":[
+     
+   ] 
 }
