@@ -7,7 +7,7 @@
    "bundleLocation":"services/wildfly.zip",
    "systemService":false,
    "serviceType":"VM_AGENT",
-   "logoPath":"custom/assets/img/serviceLogo/ab1e2a28-05ee-43d8-9c66-9febbfeaebfc.png",
+   "logoPath":"custom/assets/img/serviceLogo/fe0b9f37-6303-4e70-b914-5511fd1ef038.png",
    "serviceActions":[
       {
          "actionName":"INSTALL",
@@ -19,8 +19,8 @@
       {
          "actionName":"DEPLOY",
          "actionType":"SCRIPT",
-         "actionValue":"service  deploy",
-         "value":"service  deploy",
+         "actionValue":"service deploy",
+         "value":"service deploy",
          "key":"DEPLOY"
       },
       {
@@ -152,7 +152,7 @@
       },
       {
          "paramName":"wlfyAdminUsername",
-         "displayName":"Admin Username ",
+         "displayName":"Admin Username",
          "helpText":"Admin Username",
          "type":"string",
          "valueConstraint":{
@@ -176,7 +176,7 @@
       {
          "paramName":"wlfyAdminPwd",
          "displayName":"Administrator Console Password",
-         "helpText":"default: admin@123",
+         "helpText":"default:admin@123",
          "type":"password",
          "valueConstraint":{
             "maxLength":255,
@@ -199,37 +199,32 @@
    ],
    "servicePorts":[
       {
-         "fromPort":"80",
-         "toPort":"80",
-         "protocol":"TCP",
-         "id":"88"
-      },
-      {
          "fromPort":"8080",
          "toPort":"8080",
-         "protocol":"TCP",
-         "id":"89"
-      },
-      {
-         "fromPort":"9990",
-         "toPort":"9990",
-         "protocol":"TCP",
-         "id":"90"
+         "protocol":"TCP" 
       },
       {
          "fromPort":"8443",
          "toPort":"8443",
-         "protocol":"TCP",
-         "id":"91"
+         "protocol":"TCP" 
+      },
+      {
+         "fromPort":"9990",
+         "toPort":"9990",
+         "protocol":"TCP" 
       },
       {
          "fromPort":"9993",
          "toPort":"9993",
-         "protocol":"TCP",
-         "id":"92"
+         "protocol":"TCP" 
+      },
+      {
+         "fromPort":"80",
+         "toPort":"80",
+         "protocol":"TCP" 
       }
    ],
-   "images":[
+   "images":[ 
       {
          "id":"21"
       },
@@ -244,7 +239,5 @@
    "containerPorts":[
 
    ],
-   "repositories":[
-     
-   ] 
+   "repositories":[] 
 }
