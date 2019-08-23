@@ -526,8 +526,8 @@
             "created":"",
             "digest":""
          },
-         "Chef":{  
-            "name":"Chef",
+         "ChefAgent":{  
+            "name":"ChefAgent",
             "serviceID":"",
             "serviceCategory":"Orchestration",
             "description":"Configuration Management",
@@ -542,8 +542,8 @@
             "created":"",
             "digest":""
          },
-		 "Puppet":{  
-            "name":"Puppet",
+		 "PuppetAgent":{  
+            "name":"PuppetAgent",
             "serviceID":"",
             "serviceCategory":"Orchestration",
             "description":"Configuration Management",
