@@ -231,7 +231,7 @@
             "supportedVersion":"5.0.1",
             "serviceVersion":"1.0",
             "urls":{  
-               "serviceLibraryBundle":"WebServer/Wildfly/WorkloadManager/wildfly.zip",
+               "serviceLibraryBundle":"WebServer/Wildfly/WorkloadManager/Wildfly.zip",
                "dockerFile":"dockerimages/Dockerfile",
                "serviceImport":"Scripts/serviceimport.zip"
             },
