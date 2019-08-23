@@ -10,7 +10,7 @@
 
     WildFly is a open source Web Server which gives you the ability to deploy Java/J2EE Web applications.
 	
-	WildFly Application Server is configured in Port 8080, and Java/J2EE web application will work on default Port 9990.
+	WildFly Application Server is configured in Port 8080, and administrator console will work on default Port 9990.
 	
     Please refer the below link for more details.
 
