@@ -1,0 +1,251 @@
+{
+   "displayName":"Wildfly",
+   "name":"wildfly",
+   "description":"Implementation of java web server",
+   "parentServiceId":"37",
+   "costPerHour":"0.00",
+   "bundleLocation":"services/wildfly.zip",
+   "systemService":false,
+   "serviceType":"VM_AGENT",
+   "logoPath":"custom/assets/img/serviceLogo/fe0b9f37-6303-4e70-b914-5511fd1ef038.png",
+   "serviceActions":[
+      {
+         "actionName":"INSTALL",
+         "actionType":"SCRIPT",
+         "actionValue":"service install",
+         "value":"service install",
+         "key":"INSTALL"
+      },
+      {
+         "actionName":"DEPLOY",
+         "actionType":"SCRIPT",
+         "actionValue":"service deploy",
+         "value":"service deploy",
+         "key":"DEPLOY"
+      },
+      {
+         "actionName":"CONFIGURE",
+         "actionType":"SCRIPT",
+         "actionValue":"service configure",
+         "value":"service configure",
+         "key":"CONFIGURE"
+      },
+      {
+         "actionName":"START",
+         "actionType":"SCRIPT",
+         "actionValue":"service start",
+         "value":"service start",
+         "key":"START"
+      },
+      {
+         "actionName":"STOP",
+         "actionType":"SCRIPT",
+         "actionValue":"service stop",
+         "value":"service stop",
+         "key":"STOP"
+      },
+      {
+         "actionName":"RESTART",
+         "actionType":"SCRIPT",
+         "actionValue":"service restart",
+         "value":"service restart",
+         "key":"RESTART"
+      }
+   ],
+   "externalBundleLocation":"",
+   "externalActions":[
+
+   ],
+   "actions":[
+
+   ],
+   "serviceParamSpecs":[
+      {
+         "paramName":"wlfyJDKVersion",
+         "displayName":"App Run-time",
+         "helpText":"",
+         "type":"list",
+         "valueConstraint":{
+            "allowSpaces":true
+         },
+         "valueList":"JDK 8:JDK8",
+         "collectionList":null,
+         "defaultValue":"JDK8",
+         "secret":null,
+         "confirmValue":null,
+         "pathSuffixValue":null,
+         "userVisible":true,
+         "userEditable":true,
+         "optional":false,
+         "multiselectSupported":false,
+         "webserviceListParams":null,
+         "systemParam":true
+      },
+      {
+         "paramName":"wlfyWarFile",
+         "displayName":"App Package",
+         "helpText":"Application package file. The file is in relative path from %rootPath%.",
+         "type":"path",
+         "valueConstraint":{
+            "maxLength":255,
+            "allowSpaces":true,
+            "remainingChars":255
+         },
+         "valueList":null,
+         "collectionList":null,
+         "defaultValue":"",
+         "secret":null,
+         "confirmValue":null,
+         "pathSuffixValue":"",
+         "userVisible":true,
+         "userEditable":true,
+         "optional":false,
+         "multiselectSupported":false,
+         "webserviceListParams":null,
+         "systemParam":true
+      },
+      {
+         "paramName":"wlfyAppConfigFiles",
+         "displayName":"App Config files",
+         "helpText":"Application config files that contain CliQr system tokens and will be modified at deployment time. The config file is a relative path from the webapp context folder, e.g., WEB-INF/classes/db.conf. If there are multiple files, separate with semicolon.",
+         "type":"string",
+         "valueConstraint":{
+            "maxLength":255,
+            "allowSpaces":true,
+            "remainingChars":255
+         },
+         "valueList":null,
+         "collectionList":null,
+         "defaultValue":"",
+         "secret":null,
+         "confirmValue":null,
+         "pathSuffixValue":null,
+         "userVisible":true,
+         "userEditable":true,
+         "optional":true,
+         "multiselectSupported":false,
+         "webserviceListParams":null,
+         "systemParam":true
+      },
+      {
+         "paramName":"wlfyAppContextName",
+         "displayName":"Application Context Name",
+         "helpText":"Value should be alphabets. Don't use any special characters",
+         "type":"string",
+         "valueConstraint":{
+            "maxLength":255,
+            "allowSpaces":true,
+            "remainingChars":255
+         },
+         "valueList":null,
+         "collectionList":null,
+         "defaultValue":"",
+         "secret":null,
+         "confirmValue":null,
+         "pathSuffixValue":null,
+         "userVisible":true,
+         "userEditable":true,
+         "optional":false,
+         "multiselectSupported":false,
+         "webserviceListParams":null,
+         "systemParam":true
+      },
+      {
+         "paramName":"wlfyAdminUsername",
+         "displayName":"Admin Username",
+         "helpText":"Admin Username",
+         "type":"string",
+         "valueConstraint":{
+            "maxLength":255,
+            "allowSpaces":true,
+            "remainingChars":255
+         },
+         "valueList":null,
+         "collectionList":null,
+         "defaultValue":"rootadmin",
+         "secret":null,
+         "confirmValue":null,
+         "pathSuffixValue":null,
+         "userVisible":true,
+         "userEditable":true,
+         "optional":false,
+         "multiselectSupported":false,
+         "webserviceListParams":null,
+         "systemParam":true
+      },
+      {
+         "paramName":"wlfyAdminPwd",
+         "displayName":"Administrator Console Password",
+         "helpText":"default: admin@123",
+         "type":"password",
+         "valueConstraint":{
+            "maxLength":255,
+            "minLength":8,
+            "remainingChars":255
+         },
+         "valueList":null,
+         "collectionList":null,
+         "defaultValue":"cumpeF1LFHw8Hg+SWAYqQw==",
+         "secret":null,
+         "confirmValue":"cumpeF1LFHw8Hg+SWAYqQw==",
+         "pathSuffixValue":null,
+         "userVisible":true,
+         "userEditable":true,
+         "optional":false,
+         "multiselectSupported":false,
+         "webserviceListParams":null,
+         "systemParam":true
+      }
+   ],
+   "servicePorts":[
+      {
+         "fromPort":"8080",
+         "toPort":"8080",
+         "protocol":"TCP",
+         "id":"190"
+      },
+      {
+         "fromPort":"8443",
+         "toPort":"8443",
+         "protocol":"TCP",
+         "id":"192"
+      },
+      {
+         "fromPort":"9990",
+         "toPort":"9990",
+         "protocol":"TCP",
+         "id":"193"
+      },
+      {
+         "fromPort":"9993",
+         "toPort":"9993",
+         "protocol":"TCP",
+         "id":"194"
+      },
+      {
+         "fromPort":"80",
+         "toPort":"80",
+         "protocol":"TCP",
+         "id":"191"
+      }
+   ],
+   "images":[
+      {
+         "id":"4"
+      },
+      {
+         "id":"21"
+      },
+      {
+         "id":"26"
+      }
+   ],
+   "defaultImageId":"21",
+   "containerImages":[
+
+   ],
+   "containerPorts":[
+
+   ],
+   "repositories":[] 
+}

@@ -1,0 +1,209 @@
+red library for adding template
+OSSVC_HOME=/usr/local/osmosix/service
+
+. /usr/local/osmosix/etc/.osmosix.sh
+. /usr/local/osmosix/etc/userenv
+. $OSSVC_HOME/utils/cfgutil.sh
+
+
+if [ -f /etc/redhat-release ]; then
+os="centos"  
+elif [ -f /etc/lsb-release ]; then
+os="ubuntu"  
+fi
+ 
+cmd=$1
+SVCNAME=wildfly16
+groupName=admin
+SVCHOME="$OSSVC_HOME/$SVCNAME"
+
+# RUN EVERYTHING AS ROOT
+if [ "$(id -u)" != "0" ]; then
+    exec sudo "$0" "$@"
+fi
+ 
+ 
+function preInstall() {
+	if [ $os == "ubuntu" ]
+	then
+		apt-get -y install curl
+		apt-get -y install zip
+		apt-get -y install unzip
+		
+	elif  [ $os == "centos" ]
+	then
+		yum install -y curl
+		yum install -y zip
+		yum install -y unzip		
+	fi
+}
+ 
+function installJava8() {
+	if [ $os == "ubuntu" ]
+	then
+		apt-get update 
+		apt-get install default-jdk -y --allow-unauthenticated
+		
+		echo "export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64" >> /etc/profile
+		. /etc/profile
+		env | grep JAVA_HOME
+
+	elif  [ $os == "centos" ]
+	then
+		yum install -y java-1.8.0-openjdk
+		
+		echo "export JAVA_HOME=/usr/lib/jvm/jre-1.8.0-openjdk-1.8.0.212.b04-0.el7_6.x86_64" >> /etc/profile
+		. /etc/profile
+		env | grep JAVA_HOME
+	fi
+}
+
+function installWildfly16() {
+	preInstall
+	installJava8
+	cd /tmp
+	curl -O https://download.jboss.org/wildfly/16.0.0.Final/wildfly-16.0.0.Final.tar.gz
+	tar xf wildfly-16.0.0.Final.tar.gz -C /opt/
+}
+
+function configureWildfly() {
+	groupadd -r wildfly
+	useradd -r -g wildfly -d /opt/wildfly -s /sbin/nologin wildfly
+		
+	ln -s /opt/wildfly-16.0.0.Final/ /opt/wildfly
+	chown -RH wildfly:wildfly /opt/wildfly
+	mkdir -p /etc/wildfly
+
+	sudo cp /opt/wildfly/docs/contrib/scripts/systemd/wildfly.conf /etc/wildfly/
+	sudo cp /opt/wildfly/docs/contrib/scripts/systemd/launch.sh /opt/wildfly/bin/
+	sudo sh -c 'chmod +x /opt/wildfly/bin/*.sh'
+	sudo cp /opt/wildfly/docs/contrib/scripts/systemd/wildfly.service /etc/systemd/system/
+
+	mkdir /var/run/wildfly/
+	chown -R wildfly:wildfly /var/run/wildfly/
+	
+	firewallRule
+	enableAdminConsole
+		
+}
+
+function firewallRule() {
+
+	firewall-cmd --permanent --add-port=8080/tcp
+	firewall-cmd --reload
+	
+	firewall-cmd --permanent --add-port=9990/tcp
+        firewall-cmd --reload
+}
+
+function enableAdminConsole() {
+ 
+/opt/wildfly/bin/add-user.sh -u $wlfyAdminUsername -p $wlfyAdminPwd -g $groupName
+
+cat <<'EOF' >> /etc/wildfly/wildfly.conf
+
+#WildFly Console bind 
+WILDFLY_CONSOLE_BIND=0.0.0.0
+EOF
+
+sed -i '/$3/ !b; s/$/ -bmanagement $4/'  /opt/wildfly/bin/launch.sh
+
+restartWildflyService
+
+sed -i '/WILDFLY_BIND/ !b; s/$/ $WILDFLY_CONSOLE_BIND/'  /etc/systemd/system/wildfly.service
+ 
+sudo systemctl daemon-reload
+restartWildflyService
+
+}
+
+function configDeploySetup() {
+	if [ ! -f $wlfyWarFile ]; then
+		log "WARFile does not exist!"
+		exit 127
+	fi
+	
+	if [ -z $wlfyAppContextName ]; then
+		log "App Context Name does not exist!"
+		exit 127
+	fi
+
+	#create webapps folder on docker host
+	if [ ! -d "/usr/local/$SVCNAME/webapps" ]; then
+	    mkdir -p "/usr/local/$SVCNAME/webapps"
+	fi
+	
+	rm -rf /usr/local/$SVCNAME/webapps/*
+	cp $wlfyWarFile /usr/local/$SVCNAME/webapps/$wlfyAppContextName.war
+	cd /usr/local/$SVCNAME/webapps
+	unzip -o -q $wlfyAppContextName.war -d $wlfyAppContextName || exit 127
+		
+}
+
+function deployStartWebapp() { 	
+	
+	if [ ! -f $wlfyWarFile ]; then
+		log  "Deployment file does not exist!"
+		exit 127
+	fi
+	
+	if [ -z $wlfyAppContextName ]; then
+		log "Deployment app context name does not exist!"
+		exit 127
+	fi
+	
+	cd /opt/wildfly/standalone/deployments	 
+	cp /usr/local/$SVCNAME/webapps/$wlfyAppContextName.war /opt/wildfly/standalone/deployments
+	#tail /opt/wildfly/standalone/log/server.log  | grep $wlfyAppContextName
+	
+}
+
+
+startWildflyService() {
+	systemctl enable wildfly.service
+	systemctl start wildfly.service
+}
+
+stopWildflyService() { 
+	systemctl stop wildfly.service
+}
+
+restartWildflyService() {
+	systemctl enable wildfly.service
+	systemctl restart wildfly.service
+}
+
+case $cmd in
+    install)
+		echo "Executing Service.."
+		installWildfly16
+		;;
+		
+	configure)
+		echo "Executing Start Service.."
+		configureWildfly
+		;;
+		
+	deploy)
+		echo "Executing Start Service.."
+		configDeploySetup
+		;;
+	
+	start)
+		echo "Executing Start Service.."
+		deployStartWebapp
+		;;
+
+		
+	stop)
+		echo "Deleting Service.."
+		stopWildflyService
+		;;
+	*)
+		serviceStatus="Invalid command"
+		exit 127
+		;;
+esac
+
+
+
