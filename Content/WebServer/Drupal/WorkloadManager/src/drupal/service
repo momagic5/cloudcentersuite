@@ -69,7 +69,7 @@ gpgcheck=1
 EOF
 
 ### Mysql/MariaDB Installation ###
-yum -y install mariadb-server mariadb
+yum -y install mariadb-server
 
 systemctl start mysql  
 
