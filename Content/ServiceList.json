@@ -677,7 +677,7 @@
             "supportedVersion": "5.0.1",
             "serviceVersion": "1.0",
             "urls": {
-               "serviceLibraryBundle": "Storage/Apache Hadoop Cluster/WorkloadManager/ApacheHadoopCluster.zip",
+               "serviceLibraryBundle": "Storage/ApacheHadoopCluster/WorkloadManager/ApacheHadoopCluster.zip",
                "dockerFile": "dockerimages/Dockerfile",
                "serviceImport": "Scripts/serviceimport.zip"
             },
@@ -694,7 +694,7 @@
             "supportedVersion": "5.0.1",
             "serviceVersion": "1.0",
             "urls": {
-               "serviceLibraryBundle": "Storage/AWS Elastic MapReduce/WorkloadManager/AWSElasticMapReduce.zip",
+               "serviceLibraryBundle": "Storage/AWSElasticMapReduce/WorkloadManager/AWSElasticMapReduce.zip",
                "dockerFile": "dockerimages/Dockerfile",
                "serviceImport": "Scripts/serviceimport.zip"
             },
