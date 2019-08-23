@@ -24,7 +24,7 @@
                   "name":"AzureDNS",
                   "serviceID":"azuredns",
                   "serviceCategory":"Networking",
-                  "serviceSubcategory":"DNS/Azure",
+                  "serviceSubcategory":"DNS/Azure/AzureDnsZones",
                   "description":"Azure NDS",
                   "supportedVersion":"5.0.1",
                   "serviceVersion":"1.0",
