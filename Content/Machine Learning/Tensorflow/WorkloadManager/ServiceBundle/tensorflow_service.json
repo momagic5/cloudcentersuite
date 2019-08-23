@@ -4,7 +4,7 @@
    "description":"TensorFlow is an end-to-end platform that makes it easy for you to build and deploy Machine Leaning(ML) models.",
    "parentServiceId":"48",
    "costPerHour":"0.00",
-   "bundleLocation":"services/tensorflow.zip",
+   "bundleLocation":"",
    "systemService":false,
    "serviceType":"VM_AGENT",
    "logoPath":"logo.png",
@@ -24,7 +24,7 @@
          "key":"STOP"
       }
    ],
-   "externalBundleLocation":"",
+   "externalBundleLocation":"services/tensorflow.zip",
    "externalActions":[
 
    ],
