@@ -670,7 +670,7 @@
    "Storage":[
       {
          "ApacheHadoopCluster": {
-            "name": "Apache Hadoop Cluster",
+            "name": "ApacheHadoopCluster",
             "serviceID": "apachehadoopcluster",
             "serviceCategory": "Storage",
             "description": "Storing and processing big data",
