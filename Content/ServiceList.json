@@ -683,9 +683,9 @@
             },
             "created": "",
             "digest": ""
-         }
-      },
-      {
+         },
+    
+      
          "AWSElasticMapReduce": {
             "name": "AWS Elastic MapReduce",
             "serviceID": "awsemr",
