@@ -1,0 +1,186 @@
+{
+   "displayName":"Azure Restore",
+   "name":"azurerestore",
+   "description":"Restore VirtualMachine from Azurebackup",
+   "parentServiceId":"48",
+   "costPerHour":"0.00",
+   "bundleLocation":"",
+   "systemService":false,
+   "serviceType":"EXTERNAL",
+   "logoPath":"custom/assets/img/serviceLogo/55f7906d-46e3-4aaa-8b11-d5876fafb297.png",
+   "serviceActions":[
+
+   ],
+   "externalBundleLocation":"/services/azurerestore.zip",
+   "externalActions":[
+      {
+         "actionName":"START",
+         "actionType":"SCRIPT",
+         "actionValue":"service start",
+         "value":"service start",
+         "key":"START"
+      }
+   ],
+   "actions":[
+
+   ],
+   "serviceParamSpecs":[
+      {
+         "paramName":"vaultname",
+         "displayName":"Recovery Valut Name",
+         "helpText":"",
+         "type":"string",
+         "valueConstraint":{
+            "maxLength":255,
+            "allowSpaces":true,
+            "remainingChars":255
+         },
+         "valueList":null,
+         "collectionList":null,
+         "defaultValue":"",
+         "secret":null,
+         "confirmValue":null,
+         "pathSuffixValue":null,
+         "userVisible":true,
+         "userEditable":true,
+         "optional":false,
+         "multiselectSupported":false,
+         "webserviceListParams":null,
+         "systemParam":false,
+         "deploymentParam":true
+      },
+      {
+         "paramName":"vm_name",
+         "displayName":"Azure Virtual Machine Name",
+         "helpText":"",
+         "type":"string",
+         "valueConstraint":{
+            "maxLength":255,
+            "allowSpaces":true,
+            "remainingChars":255
+         },
+         "valueList":null,
+         "collectionList":null,
+         "defaultValue":"",
+         "secret":null,
+         "confirmValue":null,
+         "pathSuffixValue":null,
+         "userVisible":true,
+         "userEditable":true,
+         "optional":false,
+         "multiselectSupported":false,
+         "webserviceListParams":null,
+         "systemParam":false,
+         "deploymentParam":true
+      },
+      {
+         "paramName":"policyname",
+         "displayName":"Backup Policy Name",
+         "helpText":"",
+         "type":"string",
+         "valueConstraint":{
+            "maxLength":255,
+            "allowSpaces":true,
+            "remainingChars":255
+         },
+         "valueList":null,
+         "collectionList":null,
+         "defaultValue":"",
+         "secret":null,
+         "confirmValue":null,
+         "pathSuffixValue":null,
+         "userVisible":true,
+         "userEditable":true,
+         "optional":false,
+         "multiselectSupported":false,
+         "webserviceListParams":null,
+         "systemParam":false,
+         "deploymentParam":true
+      },
+      {
+         "paramName":"recoverypointdate",
+         "displayName":"RECOVERY POINT DATE",
+         "helpText":"Date will be in yyyy-mm-dd format",
+         "type":"string",
+         "valueConstraint":{
+            "maxLength":255,
+            "allowSpaces":true,
+            "remainingChars":255
+         },
+         "valueList":null,
+         "collectionList":null,
+         "defaultValue":"",
+         "secret":null,
+         "confirmValue":null,
+         "pathSuffixValue":null,
+         "userVisible":true,
+         "userEditable":true,
+         "optional":false,
+         "multiselectSupported":false,
+         "webserviceListParams":null,
+         "systemParam":false,
+         "deploymentParam":true
+      },
+      {
+         "paramName":"restore_type",
+         "displayName":"RESTORE TYPE",
+         "helpText":"",
+         "type":"list",
+         "valueConstraint":{
+            "allowSpaces":true
+         },
+         "valueList":"AlternateLocation,OriginalLocation,RestoreDisks",
+         "collectionList":null,
+         "defaultValue":"",
+         "secret":null,
+         "confirmValue":null,
+         "pathSuffixValue":null,
+         "userVisible":true,
+         "userEditable":true,
+         "optional":false,
+         "multiselectSupported":false,
+         "webserviceListParams":null,
+         "systemParam":false,
+         "deploymentParam":true
+      },
+      {
+         "paramName":"newvm",
+         "displayName":"New Virtual Machine Name",
+         "helpText":"Enter value if AlternateLocation selected in RESTORE TYPE.Restore will done in this new VirtualMachine",
+         "type":"string",
+         "valueConstraint":{
+            "maxLength":255,
+            "allowSpaces":true,
+            "remainingChars":255
+         },
+         "valueList":null,
+         "collectionList":null,
+         "defaultValue":"",
+         "secret":null,
+         "confirmValue":null,
+         "pathSuffixValue":null,
+         "userVisible":true,
+         "userEditable":true,
+         "optional":true,
+         "multiselectSupported":false,
+         "webserviceListParams":null,
+         "systemParam":false,
+         "deploymentParam":true
+      }
+   ],
+   "servicePorts":[
+
+   ],
+   "images":[
+
+   ],
+   "defaultImageId":"",
+   "containerImages":[
+
+   ],
+   "containerPorts":[
+
+   ],
+   "repositories":[
+   ]
+}

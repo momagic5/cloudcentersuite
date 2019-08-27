@@ -362,7 +362,23 @@
             },
             "created":"",
             "digest":""
+         },
+        "AzureRestore":{
+            "name":"azurerestore",
+            "serviceID":"azurerestore",
+            "serviceCategory":"Backup",
+            "description":"Azure Restore Integration Unit",
+            "supportedVersion":"5.0.1",
+            "serviceVersion":"1.0",
+            "urls":{
+               "serviceLibraryBundle":"Backup/Azure Restore/WorkloadManager/azurerestore.zip",
+               "dockerFile":"dockerimages/Dockerfile",
+               "serviceImport":"Scripts/serviceimport.zip"
+            },
+            "created":"",
+            "digest":""
          }
+
       }
    ],
    "Databases":[  
