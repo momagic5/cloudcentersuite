@@ -1,0 +1,194 @@
+{
+  "displayName":"GlassFish",
+  "name":"glassfish",
+  "description":"GlassFish is the Open Source Java EE Reference Implementation",
+  "parentServiceId":"37",
+  "costPerHour":"0.00",
+  "bundleLocation":"services/glassfish.zip",
+  "systemService":false,
+  "serviceType":"VM_AGENT",
+  "logoPath":"glassfish.png",
+  "serviceActions":[
+    {
+      "actionName":"INSTALL",
+      "actionType":"SCRIPT",
+      "actionValue":"service install",
+      "value":"service install",
+      "key":"INSTALL"
+    },
+    {
+      "actionName":"DEPLOY",
+      "actionType":"SCRIPT",
+      "actionValue":"service deploy",
+      "value":"service deploy",
+      "key":"DEPLOY"
+    },
+    {
+      "actionName":"CONFIGURE",
+      "actionType":"SCRIPT",
+      "actionValue":"service configure",
+      "value":"service configure",
+      "key":"CONFIGURE"
+    },
+    {
+      "actionName":"START",
+      "actionType":"SCRIPT",
+      "actionValue":"service start",
+      "value":"service start",
+      "key":"START"
+    },
+    {
+      "actionName":"STOP",
+      "actionType":"SCRIPT",
+      "actionValue":"service stop",
+      "value":"service stop",
+      "key":"STOP"
+    },
+    {
+      "actionName":"RESTART",
+      "actionType":"SCRIPT",
+      "actionValue":"service restart",
+      "value":"service restart",
+      "key":"RESTART"
+    }
+  ],
+  "externalBundleLocation":"null",
+  "externalActions":[
+  ],
+  "actions":[
+  ],
+  "serviceParamSpecs":[
+    {
+      "paramName":"cliqrJDKVersion",
+      "displayName":"APP Run Time",
+      "helpText":"JDK Version",
+      "type":"list",
+      "valueConstraint":{
+        "allowSpaces":true
+      },
+      "valueList":"JDK 8:JDK8",
+      "collectionList":null,
+      "defaultValue":"JDK8",
+      "secret":null,
+      "confirmValue":null,
+      "pathSuffixValue":null,
+      "userVisible":true,
+      "userEditable":true,
+      "optional":false,
+      "multiselectSupported":false,
+      "webserviceListParams":null,
+      "systemParam":true
+    },
+    {
+      "paramName":"glassfishWarFile",
+      "displayName":"App Package",
+      "helpText":"Application package file. The file is in relative path from %rootPath%.",
+      "type":"path",
+      "valueConstraint":{
+        "maxLength":255,
+        "allowSpaces":true,
+        "remainingChars":255
+      },
+      "valueList":null,
+      "collectionList":null,
+      "defaultValue":"",
+      "secret":null,
+      "confirmValue":null,
+      "pathSuffixValue":"",
+      "userVisible":true,
+      "userEditable":true,
+      "optional":false,
+      "multiselectSupported":false,
+      "webserviceListParams":null,
+      "systemParam":true
+    },
+    {
+      "paramName":"glassfishAppConfigFiles",
+      "displayName":"App Config files",
+      "helpText":"Application config files that contain CliQr system tokens and will be modified at deployment time. The config file is a relative path from the webapp context folder, e.g., WEB-INF/classes/db.conf. If there are multiple files, separate with semicolon.",
+      "type":"string",
+      "valueConstraint":{
+        "maxLength":255,
+        "allowSpaces":true,
+        "remainingChars":255
+      },
+      "valueList":null,
+      "collectionList":null,
+      "defaultValue":"",
+      "secret":null,
+      "confirmValue":null,
+      "pathSuffixValue":null,
+      "userVisible":true,
+      "userEditable":true,
+      "optional":false,
+      "multiselectSupported":false,
+      "webserviceListParams":null,
+      "systemParam":true
+    },
+    {
+      "paramName":"glassfishAppContextName",
+      "displayName":"Application Context Name",
+      "helpText":"",
+      "type":"string",
+      "valueConstraint":{
+        "maxLength":255,
+        "allowSpaces":true,
+        "remainingChars":255
+      },
+      "valueList":null,
+      "collectionList":null,
+      "defaultValue":"",
+      "secret":null,
+      "confirmValue":null,
+      "pathSuffixValue":null,
+      "userVisible":true,
+      "userEditable":true,
+      "optional":false,
+      "multiselectSupported":false,
+      "webserviceListParams":null,
+      "systemParam":true
+    }
+  ],
+  "servicePorts":[
+    {
+      "fromPort":"22",
+      "toPort":"22",
+      "protocol":"TCP"
+    },
+    {
+      "fromPort":"80",
+      "toPort":"80",
+      "protocol":"TCP"
+    },
+    {
+      "fromPort":"443",
+      "toPort":"443",
+      "protocol":"TCP"
+    },
+    {
+      "fromPort":"8080",
+      "toPort":"8080",
+      "protocol":"TCP"
+    },
+    {
+      "fromPort":"4848",
+      "toPort":"4848",
+      "protocol":"TCP"
+    }
+  ],
+  "images":[
+    {
+      "id":"21"
+    },
+    {
+      "id":"26"
+    }
+  ],
+  "defaultImageId":"21",
+  "containerImages":[
+  ],
+  "containerPorts":[
+  ],
+  "repositories":[
+  ]
+}

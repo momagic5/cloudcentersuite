@@ -1,0 +1,316 @@
+#/bin/bash
+# Installing  Glass fish server 4.1 Centos and Ubuntu 16.04
+exec > >(tee -a /usr/local/osmosix/logs/service.log) 2>&1
+echo "Executing service script.."
+OSSVC_HOME=/usr/local/osmosix/service
+
+. /usr/local/osmosix/etc/.osmosix.sh
+. /usr/local/osmosix/etc/userenv
+. $OSSVC_HOME/utils/cfgutil.sh
+. $OSSVC_HOME/utils/nosqlutil.sh
+. $OSSVC_HOME/utils/install_util.sh
+. $OSSVC_HOME/utils/os_info_util.sh
+source /usr/local/osmosix/etc/userenv
+SVCNAME=glassfish
+groupName=admin
+SVCHOME="$OSSVC_HOME/$SVCNAME"
+cmd=$1
+
+if [ -f /etc/redhat-release ]; then
+os="centos"  
+elif [ -f /etc/lsb-release ]; then
+os="ubuntu"  
+fi
+
+function preInstall() {
+	if [ $os == "ubuntu" ]
+	then
+		apt-get -y install wget
+		apt-get -y install zip
+		apt-get -y install unzip
+		
+	elif  [ $os == "centos" ]
+	then
+		yum install -y wget
+		yum install -y zip
+		yum install -y unzip		
+	fi
+}
+ 
+
+function deploy_glassfishcentos() {
+	if [ ! -f $glassfishWarFile ]; then
+		log "WARFile does not exist!"
+		exit 127
+	fi
+	
+	if [ -z $glassfishAppContextName ]; then
+		log "App Context Name does not exist!"
+		exit 127
+	fi
+	if [ ! -d "/usr/local/$SVCNAME/webapps" ]; then
+	    mkdir -p "/usr/local/$SVCNAME/webapps"
+	fi
+	systemctl restart glassfish.service
+	echo "Deploy"
+	cp $glassfishWarFile /usr/local/$SVCNAME/webapps/$glassfishAppContextName.war
+	cd /usr/local/$SVCNAME/webapps
+	unzip -o -q $glassfishAppContextName.war -d $glassfishAppContextName 
+}
+function deploy_glassfishubuntu() {
+	if [ ! -f $glassfishWarFile ]; then
+		log "WARFile does not exist!"
+		exit 127
+	fi
+	
+	if [ -z $glassfishAppContextName ]; then
+		log "App Context Name does not exist!"
+		exit 127
+	fi
+	if [ ! -d "/usr/local/$SVCNAME/webapps" ]; then
+	    mkdir -p "/usr/local/$SVCNAME/webapps"
+	fi
+	systemctl restart glassfish
+	echo "Deploy"
+	cp $glassfishWarFile /usr/local/$SVCNAME/webapps/$glassfishAppContextName.war
+	cd /usr/local/$SVCNAME/webapps
+	unzip -o -q $glassfishAppContextName.war -d $glassfishAppContextName 
+}
+
+
+deployWebapp()  {
+	if [ -f /etc/redhat-release ]; then
+        echo "Centos\n"
+		deploy_glassfishcentos
+
+		
+	elif [ -f /etc/lsb-release ]; then
+        echo "Ubuntu\n"
+		deploy_glassfishubuntu
+	
+	fi
+
+}
+function install_glassfishcentos() {
+# Install Glassfish Server 
+yum -y update
+yum install -y unzip 
+yum install -y wget
+export JAVA_HOME="/usr/lib/jvm/java-8-sun"
+installJava8
+cd /opt
+wget http://download.java.net/glassfish/4.1/release/glassfish-4.1.zip
+unzip glassfish-4.1.zip
+rm -f glassfish-4.1.zip
+cat <<EOT > /etc/systemd/system/glassfish.service
+[Unit]
+Description = GlassFish Server v4.1
+After = syslog.target network.target
+
+[Service]
+ExecStart = /usr/lib/jvm/java-8-sun/jre/bin/java -jar /opt/glassfish4/glassfish/lib/client/appserver-cli.jar start-domain
+ExecStop = /usr/lib/jvm/java-8-sun/jre/bin/java -jar /opt/glassfish4/glassfish/lib/client/appserver-cli.jar stop-domain
+ExecReload = /usr/lib/jvm/java-8-sun/jre/bin/java -jar /opt/glassfish4/glassfish/lib/client/appserver-cli.jar restart-domain
+Type = forking
+
+[Install]
+WantedBy = multi-user.target
+
+EOT
+echo 'AS_JAVA="/usr/lib/jvm/java-8-sun"' >> /opt/glassfish4/glassfish/config/asenv.conf
+sudo systemctl enable glassfish.service
+sudo systemctl start glassfish.service
+cd /opt/glassfish4/bin
+cat <<EOT > /opt/old_passwordfile.txt
+AS_ADMIN_PASSWORD=
+AS_ADMIN_NEWPASSWORD=admin@123
+AS_ADMIN_INTERACTIVE=false
+EOT
+./asadmin --user admin --passwordfile /opt/old_passwordfile.txt change-admin-password
+cat <<EOT > /opt/new_passwordfile.txt
+AS_ADMIN_PASSWORD=admin@123
+AS_ADMIN_INTERACTIVE=false
+EOT
+./asadmin --user admin --passwordfile /opt/new_passwordfile.txt enable-secure-admin
+}
+
+function install_glassfishubuntu() {
+echo "Install "
+echo "Executing service script.."
+sudo apt-get --assume-yes  update
+sudo apt-get --assume-yes upgrade
+sudo apt-get  --assume-yes install software-properties-common wget unzip
+export JAVA_HOME="/usr/lib/jvm/java-8-sun"
+installJava8
+cd /opt
+wget http://download.java.net/glassfish/4.1/release/glassfish-4.1.zip
+unzip glassfish-4.1.zip
+rm -f glassfish-4.1.zip
+cat <<EOT > /etc/systemd/system/glassfish.service
+[Unit]
+[Unit]
+Description = GlassFish Server v4.1
+After = syslog.target network.target
+
+[Service]
+ExecStart = /usr/lib/jvm/java-8-sun/jre/bin/java  -jar /opt/glassfish4/glassfish/lib/client/appserver-cli.jar start-domain
+ExecStop = /usr/lib/jvm/java-8-sun/jre/bin/java -jar /opt/glassfish4/glassfish/lib/client/appserver-cli.jar stop-domain
+ExecReload = /usr/lib/jvm/java-8-sun/jre/bin/java -jar /opt/glassfish4/glassfish/lib/client/appserver-cli.jar restart-domain
+Type = forking
+
+[Install]
+WantedBy = multi-user.target
+EOT
+echo 'AS_JAVA="/usr/lib/jvm/java-8-sun"' >> /opt/glassfish4/glassfish/config/asenv.conf
+sudo systemctl daemon-reload
+sudo systemctl enable glassfish
+sudo systemctl start glassfish
+cd /opt/glassfish4/bin
+cat <<EOT > /opt/old_passwordfile.txt
+AS_ADMIN_PASSWORD=
+AS_ADMIN_NEWPASSWORD=admin@123
+AS_ADMIN_INTERACTIVE=false
+EOT
+./asadmin --user admin --passwordfile /opt/old_passwordfile.txt change-admin-password
+cat <<EOT > /opt/new_passwordfile.txt
+AS_ADMIN_PASSWORD=admin@123
+AS_ADMIN_INTERACTIVE=false
+EOT
+./asadmin --user admin --passwordfile /opt/new_passwordfile.txt enable-secure-admin
+}
+
+install() {
+	preInstall
+	if [ -f /etc/redhat-release ]; then
+        echo "Centos\n"
+		install_glassfishcentos
+	elif [ -f /etc/lsb-release ]; then
+        echo "Ubuntu\n"
+		install_glassfishubuntu
+	fi
+
+}
+
+centosstart() {
+echo "Start"
+	
+	if [ ! -f $glassfishWarFile ]; then
+		log  "Deployment file does not exist!"
+		exit 127
+	fi
+	
+	if [ -z $glassfishAppContextName ]; then
+		log "Deployment app context name does not exist!"
+		exit 127
+	fi
+	
+	cp /usr/local/$SVCNAME/webapps/$glassfishAppContextName.war /opt/glassfish4/glassfish/domains/domain1/autodeploy	 
+
+	
+}
+ubuntustart() {
+	echo "Start"
+	if [ ! -f $glassfishWarFile ]; then
+		log  "Deployment file does not exist!"
+		exit 127
+	fi
+	
+	if [ -z $glassfishAppContextName ]; then
+		log "Deployment app context name does not exist!"
+		exit 127
+	fi
+	
+	cp /usr/local/$SVCNAME/webapps/$glassfishAppContextName.war /opt/glassfish4/glassfish/domains/domain1/autodeploy	 
+
+
+}
+start() {
+	if [ -f /etc/redhat-release ]; then
+        echo "Centos\n"
+		centosstart
+	elif [ -f /etc/lsb-release ]; then
+        echo "Ubuntu\n"
+		ubuntustart
+	fi
+
+}
+
+
+centosconfigure() {
+echo "configure"
+rm -rf /opt/old_passwordfile.txt
+rm -rf /opt/new_passwordfile.txt
+}
+ubuntuconfigure() {
+echo "Configure"
+rm -rf /opt/old_passwordfile.txt
+rm -rf /opt/new_passwordfile.txt
+}
+configure() {
+	if [ -f /etc/redhat-release ]; then
+        echo "Centos\n"
+		centosconfigure
+	elif [ -f /etc/lsb-release ]; then
+        echo "Ubuntu\n"
+		ubuntuconfigure
+	fi
+
+}
+centosstop() {
+echo "Start"
+systemctl stop glassfish.service
+}
+ubuntustop() {
+echo "Start"
+sudo systemctl stop glassfish
+}
+stop() {
+	if [ -f /etc/redhat-release ]; then
+        echo "Centos\n"
+		centosstop
+	elif [ -f /etc/lsb-release ]; then
+        echo "Ubuntu\n"
+		ubuntustop
+	fi
+
+}
+
+runscripts() {
+    case $cmd in
+        install)
+            log "[INSTALL] Installing glass fish"
+            install
+            ;;
+		start)
+		    log "[START] Starting glass fish"
+		    start
+		    ;;
+		stop)
+		    log "[STOP] Stopping glass fishr"
+			stop
+			;;
+		restart)
+		    log "[RESTART] Restarting glass fish"
+			stop 
+			start
+			;;
+		configure)
+		    log "[RESTART] configuring glass fish"
+		    configure
+			;;
+		deploy)
+            log "[DEPLOY] Deploying webapp"
+            deployWebapp
+            ;;
+		*)
+		    exit 127
+			;;
+		   
+	esac
+	
+}
+
+runscripts
+
+
+
