@@ -1,0 +1,140 @@
+#!/bin/bash
+#Grafana for linux
+
+ # Logging while running Grafana service script
+ exec > >(tee -a /usr/local/osmosix/logs/service.log) 2>&1
+
+ echo "Executing service script.."
+ OSSVC_HOME=/usr/local/osmosix/service
+
+ . /usr/local/osmosix/etc/.osmosix.sh
+ . /usr/local/osmosix/etc/userenv
+ . $OSSVC_HOME/utils/cfgutil.sh
+ . $OSSVC_HOME/utils/install_util.sh
+ . $OSSVC_HOME/utils/os_info_util.sh
+
+ # Sourcing variables from service directory
+ cmd=$1
+
+ # RUN EVERYTHING AS ROOT
+ if [ "$(id -u)" != "0" ]; then
+     exec sudo "$0" "$@"
+ fi
+
+installWget
+if [ $? -ne 0 ]
+then
+    log "[ERROR] Failed to install wget"
+    exit 1
+fi
+source /usr/local/osmosix/etc/userenv
+echo $env
+
+install(){
+        if ([[ "$ver" =~ "release 7" ]] && [ $os == "CentOS" ]); then
+
+
+
+                cat >/etc/yum.repos.d/grafana.repo <<EOL
+[grafana]
+name=grafana
+baseurl=https://packages.grafana.com/oss/rpm
+repo_gpgcheck=1
+enabled=1
+gpgcheck=1
+gpgkey=https://packages.grafana.com/gpg.key
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+EOL
+
+                yum -y install grafana
+                yum -y install fontconfig
+                yum -y install freetype*
+                yum -y install urw-fonts
+
+        else
+
+                curl https://packages.grafana.com/gpg.key | sudo apt-key add -
+                add-apt-repository "deb https://packages.grafana.com/oss/deb stable main"
+                add-apt-repository "deb https://packages.grafana.com/oss/deb beta main"
+                apt-get update
+                apt-get -y install grafana
+
+
+                fi
+}
+configure(){
+
+        echo "Processing ..!!!!"
+        echo "Processing ..!!!!"
+        APP_TIER=${cliqrAppTierName}
+        App_Tier="CliqrTier_${APP_TIER}_PUBLIC_IP"
+        App_Tier_Ip=${!App_Tier}
+
+        DEPEND_TIER=${CliqrDependents}
+        Depend_Tier="CliqrTier_${DEPEND_TIER}_PUBLIC_IP"
+        Depend_Tier_Ip=${!Depend_Tier}
+        echo $App_Tier_Ip
+        echo $Depend_Tier_Ip
+        cat >/etc/grafana/provisioning/datasources/datasource.yaml <<EOL
+
+apiVersion: 1
+
+datasources:
+  - name: MySQL
+    type: mysql
+    url: localhost:3306
+    database: grafana
+    user: grafana
+    password: admin12345
+    jsonData:
+      maxOpenConns: 0         # Grafana v5.4+
+      maxIdleConns: 2         # Grafana v5.4+
+      connMaxLifetime: 14400  # Grafana v5.4+
+
+EOL
+
+        sed -i "s@localhost:3306@$Depend_Tier_Ip:3306@g" /etc/grafana/provisioning/datasources/datasource.yaml
+        sudo chmod 744 /etc/grafana/provisioning/datasources/datasource.yaml
+
+}
+
+start(){
+        systemctl start grafana-server
+        systemctl enable grafana-server
+        systemctl status grafana-server
+
+        }
+
+stop(){
+        systemctl stop grafana-server
+
+        }
+
+runscripts() {
+    case $cmd in
+        install)
+            log "[INSTALL] Installing Grafana"
+            install
+            ;;
+        configure)
+            log "[START] Configuring Grafana"
+            configure
+            ;;
+        start)
+            log "[START] Starting Grafana"
+            start
+            ;;
+        stop)
+            log "[STOP] Stopping Grafana"
+            stop
+            ;;
+        *)
+
+        exit 127
+        ;;
+    esac
+
+}
+
+runscripts
