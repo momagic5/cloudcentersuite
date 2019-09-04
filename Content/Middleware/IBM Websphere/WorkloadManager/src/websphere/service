@@ -36,7 +36,7 @@ then
 fi
 
 installzip() {
-    if ([ "$os" == "CentOS" ] || [ "$os" == "RHEL" ]) && ([ `yum list installed | grep zip | wc -l` -eq 0 ])
+    if ([ "$os" == "CentOS" ] || [ "$os" == "RHEL" ])
         then
                 #install zip if its not installed
                 echo "Installing zip"
