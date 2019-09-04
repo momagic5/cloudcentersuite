@@ -1,0 +1,345 @@
+{
+   "displayName":"IBM WebSphere",
+   "name":"websphere",
+   "description":"Software framework and middleware that hosts Java-based web applications",
+   "parentServiceId":"37",
+   "costPerHour":"0.00",
+   "bundleLocation":"%REPO_ID_2%services/websphere.zip",
+   "systemService":false,
+   "serviceType":"VM_AGENT",
+   "logoPath":"custom/assets/img/serviceLogo/de34cde6-31f1-43cf-a5d2-c669ec713040.jpg",
+   "serviceActions":[
+      {
+         "actionName":"INSTALL",
+         "actionType":"SCRIPT",
+         "actionValue":"service install",
+         "value":"service install",
+         "key":"INSTALL"
+      },
+      {
+         "actionName":"DEPLOY",
+         "actionType":"SCRIPT",
+         "actionValue":"service  deploy",
+         "value":"service  deploy",
+         "key":"DEPLOY"
+      },
+      {
+         "actionName":"CONFIGURE",
+         "actionType":"SCRIPT",
+         "actionValue":"service configure",
+         "value":"service configure",
+         "key":"CONFIGURE"
+      },
+      {
+         "actionName":"START",
+         "actionType":"SCRIPT",
+         "actionValue":"service start",
+         "value":"service start",
+         "key":"START"
+      },
+      {
+         "actionName":"STOP",
+         "actionType":"SCRIPT",
+         "actionValue":"service stop",
+         "value":"service stop",
+         "key":"STOP"
+      },
+      {
+         "actionName":"RESTART",
+         "actionType":"SCRIPT",
+         "actionValue":"service restart",
+         "value":"service restart",
+         "key":"RESTART"
+      }
+   ],
+   "externalBundleLocation":"",
+   "externalActions":[
+
+   ],
+   "actions":[
+
+   ],
+   "serviceParamSpecs":[
+      {
+         "paramName":"installerPath",
+         "displayName":"Installer Path",
+         "helpText":"",
+         "type":"path",
+         "valueConstraint":{
+            "maxLength":255,
+            "allowSpaces":true,
+            "remainingChars":255
+         },
+         "valueList":null,
+         "collectionList":null,
+         "defaultValue":"images/websphere9_agent_installer.zip",
+         "secret":null,
+         "confirmValue":null,
+         "pathSuffixValue":"images/websphere9_agent_installer.zip",
+         "userVisible":true,
+         "userEditable":true,
+         "optional":false,
+         "multiselectSupported":false,
+         "webserviceListParams":null,
+         "systemParam":true
+      },
+      {
+         "paramName":"websphereVersion",
+         "displayName":"WebSphere Version",
+         "helpText":"",
+         "type":"list",
+         "valueConstraint":{
+            "allowSpaces":true
+         },
+         "valueList":"9.0",
+         "collectionList":null,
+         "defaultValue":"9.0",
+         "secret":null,
+         "confirmValue":null,
+         "pathSuffixValue":null,
+         "userVisible":true,
+         "userEditable":true,
+         "optional":false,
+         "multiselectSupported":false,
+         "webserviceListParams":null,
+         "systemParam":true
+      },
+      {
+         "paramName":"appPackage",
+         "displayName":"Application Package",
+         "helpText":"Application Package which is to be deployed on server",
+         "type":"path",
+         "valueConstraint":{
+            "maxLength":255,
+            "allowSpaces":true,
+            "remainingChars":255
+         },
+         "valueList":null,
+         "collectionList":null,
+         "defaultValue":"apps/petclinic.war",
+         "secret":null,
+         "confirmValue":null,
+         "pathSuffixValue":"apps/petclinic.war",
+         "userVisible":true,
+         "userEditable":true,
+         "optional":false,
+         "multiselectSupported":false,
+         "webserviceListParams":null,
+         "systemParam":true
+      },
+      {
+         "paramName":"applicationName",
+         "displayName":"Application Name",
+         "helpText":"Name of the Application",
+         "type":"string",
+         "valueConstraint":{
+            "maxLength":255,
+            "allowSpaces":true,
+            "remainingChars":255
+         },
+         "valueList":null,
+         "collectionList":null,
+         "defaultValue":"Pet Clinic",
+         "secret":null,
+         "confirmValue":null,
+         "pathSuffixValue":null,
+         "userVisible":true,
+         "userEditable":true,
+         "optional":false,
+         "multiselectSupported":false,
+         "webserviceListParams":null,
+         "systemParam":true
+      },
+      {
+         "paramName":"appConfigFile",
+         "displayName":"Application Configuration File",
+         "helpText":"",
+         "type":"string",
+         "valueConstraint":{
+            "maxLength":255,
+            "allowSpaces":true,
+            "remainingChars":255
+         },
+         "valueList":null,
+         "collectionList":null,
+         "defaultValue":"",
+         "secret":null,
+         "confirmValue":null,
+         "pathSuffixValue":null,
+         "userVisible":true,
+         "userEditable":true,
+         "optional":false,
+         "multiselectSupported":false,
+         "webserviceListParams":null,
+         "systemParam":true
+      },
+      {
+         "paramName":"adminUserName",
+         "displayName":"WebSphere UserName",
+         "helpText":"Administrator UserName",
+         "type":"string",
+         "valueConstraint":{
+            "maxLength":255,
+            "allowSpaces":true,
+            "remainingChars":255
+         },
+         "valueList":null,
+         "collectionList":null,
+         "defaultValue":"wsadmin",
+         "secret":null,
+         "confirmValue":null,
+         "pathSuffixValue":null,
+         "userVisible":true,
+         "userEditable":true,
+         "optional":false,
+         "multiselectSupported":false,
+         "webserviceListParams":null,
+         "systemParam":true
+      },
+      {
+         "paramName":"adminPassword",
+         "displayName":"WebSphere Password",
+         "helpText":"Administrator Password",
+         "type":"password_input",
+         "valueConstraint":{
+
+         },
+         "valueList":null,
+         "collectionList":null,
+         "defaultValue":"4cyMed2RU9LyhCv5i7fVOw==",
+         "secret":null,
+         "confirmValue":null,
+         "pathSuffixValue":null,
+         "userVisible":true,
+         "userEditable":true,
+         "optional":false,
+         "multiselectSupported":false,
+         "webserviceListParams":null,
+         "systemParam":true
+      },
+      {
+         "paramName":"ibmUserName",
+         "displayName":"IBM UserID",
+         "helpText":"IBM RepositoryManager Login UserId",
+         "type":"string",
+         "valueConstraint":{
+            "maxLength":255,
+            "allowSpaces":true,
+            "remainingChars":255
+         },
+         "valueList":null,
+         "collectionList":null,
+         "defaultValue":"gurram.d@hcl.com",
+         "secret":null,
+         "confirmValue":null,
+         "pathSuffixValue":null,
+         "userVisible":true,
+         "userEditable":true,
+         "optional":false,
+         "multiselectSupported":false,
+         "webserviceListParams":null,
+         "systemParam":true
+      },
+      {
+         "paramName":"ibmPassword",
+         "displayName":"IBM Password",
+         "helpText":"IBM RepositoryManager Login Password",
+         "type":"password_input",
+         "valueConstraint":{
+
+         },
+         "valueList":null,
+         "collectionList":null,
+         "defaultValue":"LCozKIJkQ6gDqB43Rzqncw==",
+         "secret":null,
+         "confirmValue":null,
+         "pathSuffixValue":null,
+         "userVisible":true,
+         "userEditable":true,
+         "optional":false,
+         "multiselectSupported":false,
+         "webserviceListParams":null,
+         "systemParam":true
+      }
+   ],
+   "servicePorts":[
+      {
+         "fromPort":"9080",
+         "toPort":"9080",
+         "protocol":"TCP",
+         "id":"106"
+      },
+      {
+         "fromPort":"9060",
+         "toPort":"9060",
+         "protocol":"TCP",
+         "id":"107"
+      },
+      {
+         "fromPort":"9443",
+         "toPort":"9443",
+         "protocol":"TCP",
+         "id":"108"
+      },
+      {
+         "fromPort":"9360",
+         "toPort":"9360",
+         "protocol":"TCP",
+         "id":"109"
+      },
+      {
+         "fromPort":"7272",
+         "toPort":"7272",
+         "protocol":"TCP",
+         "id":"110"
+      },
+      {
+         "fromPort":"5000",
+         "toPort":"5000",
+         "protocol":"TCP",
+         "id":"111"
+      },
+      {
+         "fromPort":"2809",
+         "toPort":"2809",
+         "protocol":"TCP",
+         "id":"112"
+      },
+      {
+         "fromPort":"9810",
+         "toPort":"9810",
+         "protocol":"TCP",
+         "id":"113"
+      },
+      {
+         "fromPort":"8879",
+         "toPort":"8880",
+         "protocol":"TCP",
+         "id":"114"
+      },
+      {
+         "fromPort":"8876",
+         "toPort":"8877",
+         "protocol":"TCP",
+         "id":"115"
+      }
+   ],
+   "images":[
+      {
+         "id":"21"
+      },
+      {
+         "id":"26"
+      }
+   ],
+   "defaultImageId":"21",
+   "containerImages":[
+
+   ],
+   "containerPorts":[
+
+   ],
+   "repositories":[
+      
+   ]
+}

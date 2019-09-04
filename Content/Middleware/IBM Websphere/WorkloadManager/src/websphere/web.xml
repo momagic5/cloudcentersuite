@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<agent-input clean="true" temporary="true" acceptLicense="true">
+<server>
+<repository location="https://www.ibm.com/software/repositorymanager/com.ibm.websphere.ND.v90" />
+</server>
+<install modify='false'>
+<offering id='com.ibm.websphere.ND.v90' 
+  profile='IBM WebSphere Application Server V9.0' 
+  features='core.feature,ejbdeploy,thinclient,embeddablecontainer' installFixes='none'/>
+<offering id='com.ibm.java.jdk.v8'
+  profile='IBM WebSphere Application Server V9.0'
+  features='com.ibm.sdk.8'/>
+</install>
+<profile id='IBM WebSphere Application Server V9.0' 
+  installLocation='/opt/IBM/websphere'>
+<data key='eclipseLocation' value='/opt/IBM/websphere/eclipse'/>
+<data key='user.import.profile' value='true'/>
+<data key='cic.selector.nl' value='en'/>
+</profile>
+</agent-input>

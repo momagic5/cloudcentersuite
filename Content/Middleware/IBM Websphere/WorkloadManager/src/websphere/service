@@ -1,0 +1,199 @@
+#!/bin/bash
+
+exec > >(tee -a /usr/local/osmosix/logs/service.log) 2>&1
+
+# Service Home Directory
+OSSVC_HOME=/usr/local/osmosix/service
+
+# Utility Shell Scripts
+. /usr/local/osmosix/etc/.osmosix.sh
+. /usr/local/osmosix/etc/userenv
+. $OSSVC_HOME/utils/cfgutil.sh
+. $OSSVC_HOME/utils/nosqlutil.sh
+. $OSSVC_HOME/utils/install_util.sh
+
+# Input command
+cmd=$1
+SVCNAME=websphere
+
+INSTALLATION_MANAGER_HOME=/opt/IBM/InstallationManager
+WEBSPHERE_HOME=/opt/IBM/websphere
+ISPRIMARY=0
+# Install WGET
+installWget
+if [ $? -ne 0 ]
+then
+    log "[ERROR] Failed to install wget"
+    exit 1
+fi
+
+# Install Unzip
+installUnzip
+if [ $? -ne 0 ]
+then
+    log "[ERROR] Failed to install unzip"   
+    exit 1
+fi
+
+installzip() {
+    if ([ "$os" == "CentOS" ] || [ "$os" == "RHEL" ]) && ([ `yum list installed | grep zip | wc -l` -eq 0 ])
+        then
+                #install zip if its not installed
+                echo "Installing zip"
+                yum install -y zip
+                if [ $? -ne 0 ]
+                then
+                        echo "Failed to install zip"
+                        exit 1
+                fi
+        elif [[ $os == "Ubuntu" ]]
+        then
+                echo "Installing zip"
+                apt-get install -y zip
+                if [ $? -ne 0 ]
+                then
+                        echo "Failed to install zip"
+                        exit 1
+                fi
+        fi
+
+        return 0
+}
+
+# Install Unzip
+installzip
+if [ $? -ne 0 ]
+then
+    log "[ERROR] Failed to install zip"   
+    exit 1
+fi
+# RUN EVERYTHING AS ROOT
+if [ "$(id -u)" != "0" ]; then
+    exec sudo "$0" "$@"
+fi
+
+# Logger for Service
+log() {
+	logger -t "OSMOSIX" "[$SVCNAME] $*"
+}
+
+# main entry
+if [ -z "$OSSVC_HOME" ]; then
+	log "missing parameter, exit now"
+	exit 127
+fi
+
+# Service Home Directory
+SVCHOME="$OSSVC_HOME/$SVCNAME"
+
+# Install IBM Websphere using agent instaler
+installWebSphere() {
+    unzip $installerPath
+
+    $SVCHOME/installc -acceptLicense
+}
+
+createDMGR() {
+    nodeEnv="CliqrTier_${cliqrAppTierName}_HOSTNAME"
+    nodes=${!nodeEnv}
+
+    primaryNode=`echo $nodes | cut -d',' -f 1`
+
+    nodeIPsEnv="CliqrTier_${cliqrAppTierName}_IP"
+    nodeIPs=${!nodeIPsEnv}
+    hostIP=`echo $nodeIPs | cut -d',' -f 1`
+
+    if [ "$primaryNode" == "$cliqrNodeHostname" ];
+    then
+        ISPRIMARY=1
+        $WEBSPHERE_HOME/bin/manageprofiles.sh -create -templatePath $WEBSPHERE_HOME/profileTemplates/dmgr/ -isDefault -profileName dmgr -adminUserName $adminUserName -adminPassword $adminPassword
+
+        $WEBSPHERE_HOME/bin/startManager.sh
+    else
+        echo "sleeping for 5 min"
+        sleep 5m
+    fi
+}
+# Installation Manager
+configureWebSphere() {
+    url="https://www.ibm.com/software/repositorymanager/"
+
+    $INSTALLATION_MANAGER_HOME/eclipse/tools/imutilsc saveCredential -url $url -userName $ibmUserName -userPassword $ibmPassword
+
+    $INSTALLATION_MANAGER_HOME/eclipse/tools/imcl -acceptLicense -input $SVCHOME/web.xml
+
+    if [ "$NumNodes" -gt 1 ];
+    then
+        createDMGR
+    else
+        ISPRIMARY=1
+        $WEBSPHERE_HOME/bin/manageprofiles.sh -create -templatePath $WEBSPHERE_HOME/profileTemplates/dmgr/ -isDefault -profileName dmgr -adminUserName $adminUserName -adminPassword $adminPassword
+
+        $WEBSPHERE_HOME/bin/startManager.sh
+    fi
+    
+    echo "dmgr ip"
+    echo $hostIP
+    $WEBSPHERE_HOME/bin/manageprofiles.sh -create -templatePath $WEBSPHERE_HOME/profileTemplates/managed/ -profileName $cliqrNodeHostname -dmgrHost $hostIP -adminUserName $adminUserName -adminPassword $adminPassword
+}
+
+setupClusterAndDeployApp(){
+    if [ "$ISPRIMARY" -eq 1 ]; then
+        sleep 5m
+        $WEBSPHERE_HOME/bin/wsadmin.sh -f run.py -lang jython
+    fi
+}
+
+start(){
+    $WEBSPHERE_HOME/bin/wsadmin.sh -f start.py -lang jython
+}
+
+stop(){
+    $WEBSPHERE_HOME/bin/wsadmin.sh -f stop.py -lang jython
+}
+# Agent Life-Cyle actions
+runScripts(){
+    case $cmd in
+        install)
+            log "[INSTALL] Installing $SVCNAME"
+            ;;
+        deploy)
+            echo "[DEPLOY] Deploying webapp"
+            installWebSphere
+            configureWebSphere
+            setupClusterAndDeployApp
+            ;;
+        configure)
+            echo "[CONFIGURE] configuring IBM WebSphere Server"
+            ;;
+        start)
+            echo "[CONFIGURE] Starting IBM WebSphere Server"
+            start
+            ;;
+        stop)
+            echo "[STOP] stop IBM WebSphere Server"
+            stop
+            ;;
+        restart)
+            stop
+            start
+            echo "[RESTART] Invoking pre-restart user script"
+            echo "[RESTART] Restarting $SVCNAME"
+            echo "[RESTART] Invoking post-restart user script"
+            ;;
+        cleanup)
+            echo "cleanup"
+            ;;
+        reload)
+            echo "reload"
+            ;;
+        upgrade)
+            echo "upgrade"
+            ;;
+        *)
+            exit 127
+            ;;
+    esac
+}
+
+runScripts
