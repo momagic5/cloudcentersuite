@@ -517,6 +517,26 @@
          ]
       }
    ],
+   "OSService": [
+		{
+			"ActiveDirectory-Agent": {
+				"name":"ActiveDirectory-Agent",
+				"serviceID":"",
+				"serviceCategory":"OSService",
+				"description":"OSService Management",
+				"supportedVersion":"5.0.1",
+				"serviceVersion":"1.0",
+				"isService":false,
+				"urls":{  
+				   "serviceLibraryBundle":"OSService/ActiveDirectory-Agent/WorkloadManager/ADAgent.zip",
+				   "dockerFile":"dockerimages/Dockerfile",
+				   "serviceImport":"Scripts/serviceimport.zip"
+				},
+				"created":"",
+				"digest":""
+			}
+		}
+   ],
    "Orchestration":[  
       {  
          "Terraform":{  
@@ -602,6 +622,21 @@
             "serviceVersion":"1.0",
             "urls":{  
                "serviceLibraryBundle":"Middleware/Oracle Weblogic/WorkloadManager/Weblogic.zip",
+               "dockerFile":"dockerimages/Dockerfile",
+               "serviceImport":"Scripts/serviceimport.zip"
+            },
+            "created":"",
+            "digest":""
+         },
+		 "IBM Websphere":{  
+            "name":"IBMWebsphere",
+            "serviceID":"websphere",
+            "serviceCategory":"Middleware",
+            "description":"IBM Websphere Server",
+            "supportedVersion":"5.0.1",
+            "serviceVersion":"1.0",
+            "urls":{  
+               "serviceLibraryBundle":"Middleware/IBM Websphere/WorkloadManager/IBMWebsphere.zip",
                "dockerFile":"dockerimages/Dockerfile",
                "serviceImport":"Scripts/serviceimport.zip"
             },
