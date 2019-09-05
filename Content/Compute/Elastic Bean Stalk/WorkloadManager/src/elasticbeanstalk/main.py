@@ -13,14 +13,14 @@ from botocore.exceptions import ClientError
 
 
 platform_list = {
-    'G0' : 'Go 1 running on 64bit Amazon Linux/2.11.4',
-    '.NET' : 'IIS 10.0 running on 64bit Windows Server 2016/2.1.0',
-    'Java' : 'Java 8 running on 64bit Amazon Linux/2.8.6',
-    'Node Js' : 'Node.js running on 64bit Amazon Linux/4.9.2',
-    'Ruby' : 'Puma with Ruby 2.6 running on 64bit Amazon Linux/2.9.6',
-    'PHP' : 'PHP 7.2 running on 64bit Amazon Linux/2.8.12',
-    'Python' : 'Python 3.6 running on 64bit Amazon Linux/2.8.6',
-    'Tomcat' : 'Tomcat 8.5 with Java 8 running on 64bit Amazon Linux/3.1.6',
+    'G0' : 'Go 1 running on 64bit Amazon Linux',
+    '.NET' : 'IIS 10.0 running on 64bit Windows Server 2016',
+    'Java' : 'Java 8 running on 64bit Amazon Linux',
+    'Node Js' : 'Node.js running on 64bit Amazon Linux',
+    'Ruby' : 'Puma with Ruby 2.6 running on 64bit Amazon Linux',
+    'PHP' : 'PHP 7.2 running on 64bit Amazon Linux',
+    'Python' : 'Python 3.6 running on 64bit Amazon Linux',
+    'Tomcat' : 'Tomcat 8.5 with Java 8 running on 64bit Amazon Linux',
 
 }
 
@@ -135,15 +135,32 @@ def create_application_version(conn, data):
         delete_bucket(conn, data['bucketName'])
         return False
 
+def describe_platform_version(ebclient, platform):
+
+    try:
+        response = ebclient.describe_platform_version(
+            PlatformArn=platform
+        )
+        return response['PlatformDescription']['PlatformVersion'] if len(response) > 0 else False
+    except ClientError as e:
+        print_error(e.response['Error']['Message']) 
+        return False
+    except Exception as e:
+        print_error(e)
+        return False
+
 def create_environment(conn, data):
 
     print_log('Creating Environment')
     try:
         ebclient = conn['ebclient']
-        platform = 'arn:aws:elasticbeanstalk:' + data['region'] + '::platform/' + platform_list[data['platform']]
+        platform_name = platform_list[data['platform']]
+        platform_arn = 'arn:aws:elasticbeanstalk:' + data['region'] + '::platform/' + platform_name
+        version = describe_platform_version(ebclient, platform_arn)
+        platform = platform_arn + '/' + version
         response = ebclient.create_environment(
             ApplicationName=data['appName'],
-            CNAMEPrefix=data['domainNamePrefix'] 
+            CNAMEPrefix=data['domainNamePrefix'],
             EnvironmentName=data['environmentName'],
             SolutionStackName=platform,
             VersionLabel=data['versionLabel']
@@ -422,7 +439,8 @@ def main():
         env_data["bucketName"] = os.environ["bucketName"]
         env_data["domainNamePrefix"] = os.environ["domainNamePrefix"]
         env_data["versionLabel"] = os.environ["versionLabel"]
-        env_data["environmentName"] = os.environ["environmentName"] 
+        env_data["environmentName"] = os.environ["environmentName"]
+        #env_data["environmentDesc"] = os.environ["environmentDesc"]
         env_data["platform"] = os.environ["platform"]
 
         app_package_base_name = get_package_base_name(os.environ["appPackage"])
@@ -483,3 +501,4 @@ def main():
 
 
 main()
+
