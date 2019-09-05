@@ -304,10 +304,13 @@ def main(cmd):
 				ip_address = str(os.environ['CliqrTier_' + dependents + '_IP']).split(',') 
 				print("my instances is ===================>{}".format(istances))
 				print("my vm instance public ip is ===================>{}".format(network_ip))
-				networks.append({
-					"name": "Compute Engine",
-					"value": network_ip
-				})
+				for ip in network_ip:
+					networks.append({
+						"name": "Compute Engine",
+						"value": ip
+					})
+				print(networks)
+				
         
     except Exception as er:
         print_error(er.message)
@@ -496,7 +499,7 @@ def main(cmd):
             instance_params = postgre_params(project_name, instance_name, region_name, networks)
         else:
             print_error("Error, Please give correct sql type.")
-        
+        print(instance_params)        
         try:  
              
             if instance_params:
