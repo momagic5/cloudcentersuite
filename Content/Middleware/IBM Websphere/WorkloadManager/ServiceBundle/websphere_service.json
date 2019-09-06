@@ -52,7 +52,7 @@
          "key":"RESTART"
       }
    ],
-   "externalBundleLocation":"",
+   "externalBundleLocation":"null",
    "externalActions":[
 
    ],
@@ -266,44 +266,37 @@
       {
          "fromPort":"9080",
          "toPort":"9080",
-         "protocol":"TCP",
-         "id":"106"
+         "protocol":"TCP"
       },
       {
          "fromPort":"9060",
          "toPort":"9060",
-         "protocol":"TCP",
-         "id":"107"
+         "protocol":"TCP"
       },
       {
          "fromPort":"9443",
          "toPort":"9443",
-         "protocol":"TCP",
-         "id":"108"
+         "protocol":"TCP"
       },
       {
          "fromPort":"9360",
          "toPort":"9360",
-         "protocol":"TCP",
-         "id":"109"
+         "protocol":"TCP"
       },
       {
          "fromPort":"7272",
          "toPort":"7272",
-         "protocol":"TCP",
-         "id":"110"
+         "protocol":"TCP"
       },
       {
          "fromPort":"5000",
          "toPort":"5000",
-         "protocol":"TCP",
-         "id":"111"
+         "protocol":"TCP"
       },
       {
          "fromPort":"2809",
          "toPort":"2809",
-         "protocol":"TCP",
-         "id":"112"
+         "protocol":"TCP"
       },
       {
          "fromPort":"9810",
@@ -314,14 +307,12 @@
       {
          "fromPort":"8879",
          "toPort":"8880",
-         "protocol":"TCP",
-         "id":"114"
+         "protocol":"TCP"
       },
       {
          "fromPort":"8876",
          "toPort":"8877",
-         "protocol":"TCP",
-         "id":"115"
+         "protocol":"TCP"
       }
    ],
    "images":[
