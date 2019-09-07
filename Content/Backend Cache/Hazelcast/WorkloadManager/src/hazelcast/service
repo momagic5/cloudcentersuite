@@ -1,0 +1,220 @@
+#!/bin/bash
+#Hazelcast Installation & Cluster Creation
+
+# Logging while running Hadoop service script
+exec > >(tee -a /usr/local/osmosix/logs/service.log) 2>&1
+
+echo "Executing service script..."
+OSSVC_HOME=/usr/local/osmosix/service
+
+ . /usr/local/osmosix/etc/.osmosix.sh
+ . /usr/local/osmosix/etc/userenv
+ . $OSSVC_HOME/utils/cfgutil.sh
+ . $OSSVC_HOME/utils/install_util.sh
+ . $OSSVC_HOME/utils/os_info_util.sh
+
+
+source /usr/local/osmosix/etc/userenv
+source /etc/os-release
+cmd=$1
+
+# Sourcing variables from service directory
+
+export ipListName='echo $CliqrTier_'$cliqrAppTierName"_IP"
+export ipList=`eval $ipListName`
+
+
+installHazelcastCentos() {
+
+
+# Install & Setup Hazelcast cluster
+
+
+yum install unzip -y
+
+chown cliqruser:cliqruser /opt/remoteFiles/appPackage/
+
+cd /opt/remoteFiles/appPackage/
+
+#Install java
+
+yum install -y java-1.8.0-openjdk
+
+echo "Java is successfully installed"
+
+cd /opt/remoteFiles/appPackage/
+
+chmod -R 755 /opt/remoteFiles/appPackage/
+
+
+#Install latest python version
+
+yum install -y https://centos7.iuscommunity.org/ius-release.rpm
+
+yum install -y python36u python36u-libs python36u-devel python36u-pip
+
+python3.6 -V
+
+echo "Python 3.6 is successfully installed"
+
+#Install Python package for Hazelcast client
+
+python3.6 -m pip install hazelcast-python-client
+
+#Unzip hazelcast Jar zip file
+
+unzip hazelcast-3.12.2.zip
+
+cd hazelcast-3.12.2/bin
+
+#Configure hazelcast cluster
+
+portNo=5702
+
+sed -i 's/<multicast enabled="true">/<multicast enabled="false">/g' hazelcast.xml
+
+sed -i 's/<tcp-ip enabled="false">/<tcp-ip enabled="true">/g' hazelcast.xml
+
+sed -i '/<member>127.0.0.1<\/member>/d' hazelcast.xml 
+
+sed -i 's/$RUN_JAVA -server $JAVA_OPTS com.hazelcast.core.server.StartServer &/$RUN_JAVA -server $JAVA_OPTS com.hazelcast.core.server.StartServer/g' start.sh
+
+
+for i in $(echo $ipList | sed "s/,/ /g")
+
+do
+
+sed -i '/<member-list>/a\                    <member>'$i':'$portNo'</member>' hazelcast.xml
+
+if [ "$cliqrNodePrivateIp" == "$i" ]; then
+   
+sed -i 's/<interface>127.0.0.1<\/interface>/<interface>'$i'<\/interface>/g' hazelcast.xml
+
+sed -i 's/<port auto-increment="true" port-count="100">5701<\/port>/<port auto-increment="true" port-count="100">'$portNo'<\/port>/g' hazelcast.xml
+
+
+
+fi
+
+
+portNo=$(($portNo + 1))
+
+done
+
+}
+
+
+installHazelcastUbuntu() {
+
+
+# Install & Setup Hazelcast cluster
+
+
+apt-get install unzip -y
+
+chown cliqruser:cliqruser /opt/remoteFiles/appPackage/
+
+cd /opt/remoteFiles/appPackage/
+
+#Install java
+
+apt-get update
+
+apt-get install default-jdk -y --allow-unauthenticated
+
+echo "Java is successfully installed"
+
+cd /opt/remoteFiles/appPackage/
+
+#Install latest python version
+
+add-apt-repository ppa:jonathonf/python-3.6 -y
+
+apt-get update -y
+
+apt-get install python3.6 -y
+
+python3.6 -V
+
+echo "Python 3.6 is successfully installed"
+
+#Install Python package for Hazelcast
+
+apt-get install python-pip -y --allow-unauthenticated
+
+pip install hazelcast-python-client
+
+cp -r /usr/local/lib/python2.7/dist-packages/hazelcast /usr/local/lib/python3.6/dist-packages
+
+
+cd /opt/remoteFiles/appPackage/
+
+
+#Unzip hazelcast Jar zip file
+
+unzip hazelcast-3.12.2.zip
+
+cd hazelcast-3.12.2/bin
+
+#Configure hazelcast cluster
+
+portNo=5702
+
+sed -i 's/<multicast enabled="true">/<multicast enabled="false">/g' hazelcast.xml
+
+sed -i 's/<tcp-ip enabled="false">/<tcp-ip enabled="true">/g' hazelcast.xml
+
+sed -i '/<member>127.0.0.1<\/member>/d' hazelcast.xml 
+
+sed -i 's/$RUN_JAVA -server $JAVA_OPTS com.hazelcast.core.server.StartServer &/$RUN_JAVA -server $JAVA_OPTS com.hazelcast.core.server.StartServer/g' start.sh
+
+
+for i in $(echo $ipList | sed "s/,/ /g")
+
+do
+
+sed -i '/<member-list>/a\                    <member>'$i':'$portNo'</member>' hazelcast.xml
+
+if [ "$cliqrNodePrivateIp" == "$i" ]; then
+   
+sed -i 's/<interface>127.0.0.1<\/interface>/<interface>'$i'<\/interface>/g' hazelcast.xml
+
+sed -i 's/<port auto-increment="true" port-count="100">5701<\/port>/<port auto-increment="true" port-count="100">'$portNo'<\/port>/g' hazelcast.xml
+
+
+
+fi
+
+
+portNo=$(($portNo + 1))
+
+done
+
+}
+
+startServer() {
+
+chown -R cliqruser:cliqruser /opt/remoteFiles/appPackage/hazelcast-3.12.2/
+
+su cliqruser -c "sh /opt/remoteFiles/appPackage/hazelcast-3.12.2/bin/start.sh >> /tmp/nodemanager.out 2>&1 &"
+
+sleep 50s
+
+exit
+
+}
+
+
+case $cmd in
+	start)
+	      
+	  if [ -f /etc/redhat-release ]; then
+	  	installHazelcastCentos  
+	  elif [ -f /etc/lsb-release ]; then
+		installHazelcastUbuntu
+	  fi
+          
+          startServer
+
+	   ;;	  
+esac
