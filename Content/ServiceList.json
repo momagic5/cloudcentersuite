@@ -746,6 +746,21 @@
             },
             "created":"",
             "digest":""
+         },
+         "Grafana":{
+            "name":"Grafana",
+            "serviceID":"grafana",
+            "serviceCategory":"Logging",
+            "description":"Logging Tool",
+            "supportedVersion":"5.0.1",
+            "serviceVersion":"1.0",
+            "urls":{
+               "serviceLibraryBundle":"Logging/Grafana/WorkloadManager/Grafana.zip",
+               "dockerFile":"dockerimages/Dockerfile",
+               "serviceImport":"Scripts/serviceimport.zip"
+            },
+            "created":"",
+            "digest":""
          }
       }
    ],
