@@ -324,6 +324,22 @@
             "created":"",
             "digest":""
          }
+      ,
+        "Hazelcast": {
+         "name": "Hazelcast",
+         "serviceID": "hazelcast",
+         "serviceCategory": "Backend Cache",
+         "description": "In-memory Data grid caching",
+         "supportedVersion": "5.0.1",
+         "serviceVersion": "1.0",
+         "urls": {
+            "serviceLibraryBundle": "Backend Cache/Hazelcast/WorkloadManager/Hazelcast.zip",
+            "dockerFile": "dockerimages/Dockerfile",
+            "serviceImport": "Scripts/serviceimport.zip"
+         },
+         "created": "",
+         "digest": ""
+      }
       }
    ],
    "Backup":[  
@@ -725,6 +741,21 @@
             ],
             "urls":{  
                "serviceLibraryBundle":"Logging/Elasticsearch/WorkloadManager/Elasticsearch.zip",
+               "dockerFile":"dockerimages/Dockerfile",
+               "serviceImport":"Scripts/serviceimport.zip"
+            },
+            "created":"",
+            "digest":""
+         },
+         "Grafana":{
+            "name":"Grafana",
+            "serviceID":"grafana",
+            "serviceCategory":"Logging",
+            "description":"Logging Tool",
+            "supportedVersion":"5.0.1",
+            "serviceVersion":"1.0",
+            "urls":{
+               "serviceLibraryBundle":"Logging/Grafana/WorkloadManager/Grafana.zip",
                "dockerFile":"dockerimages/Dockerfile",
                "serviceImport":"Scripts/serviceimport.zip"
             },

@@ -56,7 +56,7 @@ Once the script is run, please follow the prompts to import the service or the c
     
          - Application Zip file under <app_path>/<your_package_name>
             
-             Example: http://<Your_REPO_Server_IP>/<app_path>/mongodb-j2ee-app.zip
+             Example: http://<Your_REPO_Server_IP>/<app_path>/mongodb-j2ee-app-vm.zip
              
 ## Service Package Bundle
 
