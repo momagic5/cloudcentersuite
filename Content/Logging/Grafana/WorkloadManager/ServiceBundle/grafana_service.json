@@ -28,7 +28,7 @@
 	"servicePorts": [{
 		"fromPort": "3000",
 		"toPort": "3000",
-		"protocol": "TCP",
+		"protocol": "TCP"
 		
 	}],
 	"images": [{
