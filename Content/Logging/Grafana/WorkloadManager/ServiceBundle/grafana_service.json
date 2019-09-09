@@ -1,7 +1,7 @@
 {
 	"displayName": "Grafana",
 	"name": "grafana",
-	"description": "it's is a monitoring tool",
+	"description": "Logging tool",
 	"parentServiceId": "48",
 	"costPerHour": "0.00",
 	"bundleLocation": "services/grafana.zip",
@@ -21,14 +21,15 @@
 		"value": "service configure",
 		"key": "CONFIGURE"
 	}],
-	"externalBundleLocation": "",
+	"externalBundleLocation": "null",
 	"externalActions": [],
 	"actions": [],
 	"serviceParamSpecs": [],
 	"servicePorts": [{
 		"fromPort": "3000",
 		"toPort": "3000",
-		"protocol": "TCP"
+		"protocol": "TCP",
+		
 	}],
 	"images": [{
 		"id": "21"
