@@ -17,7 +17,7 @@
          "key":"START"
       }
    ],
-   "externalBundleLocation":"",
+   "externalBundleLocation":null,
    "externalActions":[
 
    ],

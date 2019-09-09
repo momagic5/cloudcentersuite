@@ -1,9 +1,12 @@
 # Hazelcast
 ## Introduction
 
-    Hazelcast is a clustering and highly scalable data distribution platform for Java. Hazelcast helps architects and developers to easily design and develop faster, highly scalable and reliable applications for their businesses.
+    Hazelcast is a clustering and highly scalable data distribution platform for Java. 
+    Hazelcast helps architects and developers to easily design and develop faster, highly scalable and reliable 
+    applications for their businesses.
     
-    Hazelcast IMDG lets you implement a Cache-as-a-Service layer by providing a scalable, reliable and fast caching solution.
+    Hazelcast IMDG lets you implement a Cache-as-a-Service layer by providing a scalable, reliable and fast 
+    caching solution.
     
     Please refer the below link for more details.
 	https://hazelcast.com/use-cases/caching/
@@ -22,6 +25,9 @@ Before you start with service import, Install Docker by following the steps prov
 **NOTE** : You can skip the above step, if Docker Client is already installed and running in your machine. 
 - You can check , if docker is installed , by running "docker -v"
 - You can check , if docker is running , by executing the command "systemctl status docker"
+
+Download the ZIP format of hazelcast JAR file ( version: Hazelcast IMDG 3.12.2 ) used to install the hazelcast setup by referring [here](https://hazelcast.org/download/). You will obtain a file named hazelcast-3.12.2.zip. Unzip the already provided package, named hazelcast_app.zip, and include hazelcast-3.12.2.zip & Zip again. This will be your final app package ( hazelcast_app.zip).  
+
 
 ## Importing the service
 
@@ -74,6 +80,9 @@ External Lifecycle Actions:
 | maxClusterSize | number| Maximum Number of Nodes | 3 | 3 |
 
 
-Note: When deploying the application, please select "Persist Private Key" in SSH Options.
+Note: When deploying the application, please select "Persist Private Key" in SSH Options on both the tiers ( in this case apache & hazelcast).
 
 	| SSH Options | No Preference | Assign Public Key | Persist Private Key
+	
+While modifying package hazelcast_app.zip, Please zip the files (addapache, phpentryform.zip & hazelcast-3.12.2.zip) directly rather than zipping the folder containing them.  
+
